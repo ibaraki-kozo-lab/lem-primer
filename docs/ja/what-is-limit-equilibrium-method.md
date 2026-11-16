@@ -239,6 +239,8 @@ Fellenius法，簡易Bishop法，簡易Janbu法の比較
 
 4.1節から4.3節の3つの手法は，どれも内力の一部またはすべてを無視し，つり合い条件の一部だけを満たす．このシリーズでは，こうした手法をまとめて**つり合いの一部だけを満たす方法**と呼び，5節の静力学的に完全な方法と区別する．
 
+(what-section-4-1)=
+
 #### 4.1 Fellenius法（簡便分割法）
 
 Fellenius法（簡便分割法）は，底面垂直力を求めるときに，隣のスライスから受ける垂直力とせん断力の効果を無視する．そのうえで，円弧すべりについての全体のモーメントのつり合いから，安全率を求める．英語では，Ordinary Method of SlicesやSwedish Circle Methodとも呼ばれる．日本の基準や実務の資料では，単に簡便法と呼ぶことが多い．
@@ -258,10 +260,6 @@ c_i'l_i+\left(W_i\cos\alpha_i-U_i\right)\tan\phi_i'
 }
 $$ (eq-what-fellenius)
 
-```{note}
-水圧の項の表し方は，記号の定義によって変わる．
-```
-
 ##### 不静定性の解消の仕方
 
 - スライス間力の効果を無視する
@@ -275,6 +273,43 @@ $$ (eq-what-fellenius)
 ```{note}
 この近似は，スライス間力の効果を，安全率の計算に含めていないだけである．スライス間力が物理的に存在しないとみなすものではない．
 ```
+
+##### 間隙水圧の項
+
+式 {eq}`eq-what-fellenius` は，自重の法線成分 $W_i\cos\alpha_i$ を底面垂直力とし，そこから{term}`底面の間隙水圧の合力` $U_i=u_il_i$ を引いて，有効垂直力を求めている．$u_i$ は，底面の間隙水圧である．間隙水圧の項には，自重から $u_ib_i$ を引いた有効重量を，底面の法線方向に分解する，次の形もある．
+
+$$
+N_i-U_i=(W_i-u_ib_i)\cos\alpha_i
+$$ (eq-what-fellenius-effective-weight)
+
+この形を使うFellenius法は，**修正Fellenius法**と呼ばれる．右城ら (1996)は，当時の道路土工指針などの基準類が，盛土の安定解析にこの形を，地すべりの安定解析に式 {eq}`eq-what-fellenius` を使うと述べている．
+
+力学的には，2つの形は，無視するスライス間力の範囲が異なる．スライス間力のうち，スライスの鉛直な側面（隣のスライスとの境界）にはたらく水圧は，間隙水圧の分布から求められる量である．式 {eq}`eq-what-fellenius` は，この水圧も含めて，スライス間力をすべて無視する．一方，式 {eq}`eq-what-fellenius-effective-weight` は，土の骨格が有効応力として伝える部分だけを無視し，側面の水圧が底面の水圧の水平成分を打ち消すとみなしている．そのため，2つの形は，底面垂直力 $N_i$ の見積もりが異なる．底面の間隙水圧の合力 $U_i$ は，どちらの形でも同じである．
+
+どちらが正しいかは，地下水の状態によって異なる．スライスの位置で，地下水位が水平で地表より低く，水が流れていないとする．このとき，スライスの境界にはたらく水圧の合力は，鉛直上向きの浮力 $u_ib_i$ になる．そのため，側面の水圧は，底面の水圧の水平成分を打ち消す．つまり，式 {eq}`eq-what-fellenius-effective-weight` が，水圧を正しく扱った有効垂直力を与える．式 {eq}`eq-what-fellenius` の有効垂直力が小さいのは，両側面の水圧の合力の，底面の法線方向の成分 $U_i\sin^2\alpha_i$ を落とすからである．一方，{term}`無限斜面`で地下水が斜面に平行に流れるときは，両側の面の水圧が等しく，打ち消し合う．そのため，式 {eq}`eq-what-fellenius` が正しい．地下水が流れる一般の斜面では，どちらの形も近似である．
+
+:::{dropdown} 補足A：静水でのスライスの境界の水圧と，底面垂直力
+底面が直線で，地下水位が水平で地表より低く，底面全体が地下水位より下にあるスライスを考える．左右の側面の位置での，底面から地下水位までの高さを $h_{w,L}$，$h_{w,R}$ とする．底面が右上がりなら，左側面のほうが深く，$h_{w,L}-h_{w,R}=b_i\tan\alpha_i$ である．
+
+水の単位体積重量を $\gamma_w$ とすると，底面の中点の間隙水圧は $u_i=\gamma_w(h_{w,L}+h_{w,R})/2$ になる．底面の間隙水圧は直線的に変化するので，その合力は $U_i=u_il_i$ である．側面の水圧は，深さに比例して増加する．そのため，左右の側面にはたらく水圧の合力は，それぞれ $\gamma_wh_{w,L}^2/2$ と $\gamma_wh_{w,R}^2/2$ で，どちらも水平にはたらく．$b_i\tan\alpha_i=l_i\sin\alpha_i$ を使うと，その差は次のようになる．
+
+$$
+\frac{\gamma_wh_{w,L}^2}{2}-\frac{\gamma_wh_{w,R}^2}{2}
+=\gamma_w\frac{h_{w,L}+h_{w,R}}{2}\,(h_{w,L}-h_{w,R})
+=u_ib_i\tan\alpha_i
+=U_i\sin\alpha_i
+$$
+
+左側面のほうが深いので，両側面の水圧の合力は，この大きさで右向きにはたらく．一方，底面の水圧の合力 $U_i$ は，スライスを左上に押す．つまり，両側面の水圧の合力は，$U_i$ の水平成分を打ち消す．鉛直方向にはたらく水圧は，底面の水圧だけである．その鉛直成分 $U_i\cos\alpha_i=u_ib_i$ は，スライスのうち地下水位より下の部分の体積 $b_i(h_{w,L}+h_{w,R})/2$ に $\gamma_w$ を掛けた値で，浮力に等しい．
+
+両側面の水圧の合力 $U_i\sin\alpha_i$ は，底面の法線方向に $U_i\sin^2\alpha_i$ の成分をもつ．この成分は，スライスを底面に押しつける向きである．両側面の水圧は残し，スライス間力のうち土の骨格が伝える部分だけを無視すると，底面の法線方向のつり合いから，底面垂直力は次のようになる．
+
+$$
+N_i=W_i\cos\alpha_i+U_i\sin^2\alpha_i
+$$
+
+両辺から $U_i$ を引くと，$N_i-U_i=W_i\cos\alpha_i-U_i\cos^2\alpha_i=(W_i-u_ib_i)\cos\alpha_i$ になり，式 {eq}`eq-what-fellenius-effective-weight` が得られる．
+:::
 
 **原典**：Felleniusの方法は，1920年代の著作までさかのぼる．書誌を確認できた資料には，W. Fellenius, *Erdstatische Berechnungen mit Reibung und Kohäsion (Adhäsion) und unter Annahme kreiszylindrischer Gleitflächen*, Ernst & Sohn, Berlin, 1927がある（[書誌情報](https://books.google.com/books?id=yHhHAAAAIAAJ)）．もう1つは，“Calculation of the Stability of Earth Dams,” *Proceedings of the Second Congress on Large Dams*, Vol. 4, pp. 445–462, 1936である（[書誌情報](https://cir.nii.ac.jp/crid/1573950399306830336)）．どちらにも，確認できる現代のDOIはない．
 
@@ -302,6 +337,8 @@ c_i'b_i+(W_i-u_i b_i)\tan\phi_i'
 $$ (eq-what-bishop)
 
 右辺にも $F_s$ が現れるので，反復計算で求める．
+
+分子の $W_i-u_ib_i$ は，各スライスの鉛直方向のつり合いから得られる．底面の間隙水圧の合力 $U_i=u_il_i$ は，鉛直成分 $u_ib_i$ がこのつり合いに入る．一方，側面の水圧は水平にはたらくので，このつり合いには入らない．つまり，4.1節の修正Fellenius法と同じ有効重量が，側面の水圧について仮定を置かずに得られる．
 
 ##### 不静定性の解消の仕方
 
@@ -926,43 +963,49 @@ $c_m'=10/1.49=6.71$ kPa，$\tan\phi_m'=\tan 30^\circ/1.49=0.3875$ なので，$\
 （→[4節](#what-section-4)，[6節](#what-section-6)）
 :::
 
-:::{dropdown} 問6　Spencer法が「静力学的に完全」と呼ばれるのは，どの意味での完全さか
+:::{dropdown} 問6　地下水位が水平で地表より低く，地下水が流れていないスライスがある．Fellenius法の間隙水圧の項の2つの形のうち，どちらが水圧を正しく扱っているか．もう一方の有効垂直力が小さいのはなぜか
+:icon: question
+
+有効重量を法線方向に分解する，修正Fellenius法の $(W_i-u_ib_i)\cos\alpha_i$ である．水が静止していると，スライスの境界にはたらく水圧の合力は，鉛直上向きの浮力 $u_ib_i$ になる．つまり，側面の水圧が，底面の水圧の水平成分を打ち消す．もう一方の $W_i\cos\alpha_i-U_i$ は，側面の水圧も無視するので，両側面の水圧の合力の，底面の法線方向の成分 $U_i\sin^2\alpha_i$ だけ，有効垂直力が小さくなるため．（→[4.1節](#what-section-4-1)）
+:::
+
+:::{dropdown} 問7　Spencer法が「静力学的に完全」と呼ばれるのは，どの意味での完全さか
 :icon: question
 
 仮定した内力の向き（すべての境界で同じ角度 $\theta$）のもとで，力とモーメントのつり合いをすべて満たす，という意味である．ただし，Spencer法の解は，連続体としての厳密解ではない．得られる内力の分布が，物理的に唯一の解だとも限らない．（→[5.1節](#what-section-5-1)）
 :::
 
-:::{dropdown} 問7　Morgenstern–Price法の $X/E=\lambda f(x)$ で，$f(x)$ と $\lambda$ はそれぞれどう決定するか．$f(x)$ を何通りか変えて安全率がほぼ同じになれば，内力の分布も定まったといえるか
+:::{dropdown} 問8　Morgenstern–Price法の $X/E=\lambda f(x)$ で，$f(x)$ と $\lambda$ はそれぞれどう決定するか．$f(x)$ を何通りか変えて安全率がほぼ同じになれば，内力の分布も定まったといえるか
 :icon: question
 
 $f(x)$ は，内力の向きが場所によってどう変わるかを表す関数で，正弦の半波や台形などから選択して仮定する．一方，$\lambda$ は $X/E$ の大きさを決定する倍率で，$F_s$ と一緒に，力とモーメントのつり合いから解く．安全率がほぼ同じになっても，内力の分布が定まったとはいえない．$f(x)$ が異なれば，スライス間力や底面垂直力の分布は異なることがあるため．なお，$f(x)=1$ とすると，Spencer法になる．（→[5.2節](#what-section-5-2)）
 :::
 
-:::{dropdown} 問8　3次元で新しく決定しなければならない量は何か．つり合い式が6本になっても足りないのはなぜか
+:::{dropdown} 問9　3次元で新しく決定しなければならない量は何か．つり合い式が6本になっても足りないのはなぜか
 :icon: question
 
 底面のせん断力の接平面内での向き，全体すべり方向，回転軸を，新しく決定しなければならない．つり合い式は6本になるが，未知量はさらに増加するため．内部境界が2方向になるので，カラム間力の成分と作用位置が未知量に加わる．底面のせん断力の向きも加わる．（→[7節](#what-section-7)）
 :::
 
-:::{dropdown} 問9　3次元のHovland法は，2次元のSpencer法より静力学的に厳密といえるか
+:::{dropdown} 問10　3次元のHovland法は，2次元のSpencer法より静力学的に厳密といえるか
 :icon: question
 
 いえない．Hovland法は，カラム間力を無視するFellenius型の拡張で，3方向の力のつり合いとモーメントのつり合いを，一般に完全には満たさないため．一方，2次元のSpencer法は，内力の向きを仮定したうえで，力とモーメントのつり合いをすべて満たす．つまり，静力学的な厳密さは，2次元か3次元かではなく，内力の扱いと，満たすつり合いで定まる．（→[5.1節](#what-section-5-1)，[8.1節](#what-section-8-1)）
 :::
 
-:::{dropdown} 問10　「3次元の安全率は2次元より大きい」と言い切れないのはなぜか
+:::{dropdown} 問11　「3次元の安全率は2次元より大きい」と言い切れないのはなぜか
 :icon: question
 
 2次元と3次元で，比較している条件が同じとは限らないため．探したすべり面が同じ破壊の機構か，全体すべり方向は適切か，カラム間力をどこまで考えたか，側面の強度を二重計上していないか，といった点が異なれば，単純には比較できない．（→[9節](#what-section-9)）
 :::
 
-:::{dropdown} 問11　すべり面全体で1つの安全率 $F_s$ を使うことは，強度について何を仮定していることになるか．その仮定では直接は表せないものは何か
+:::{dropdown} 問12　すべり面全体で1つの安全率 $F_s$ を使うことは，強度について何を仮定していることになるか．その仮定では直接は表せないものは何か
 :icon: question
 
 強度が，すべり面のどこでも同時に，同じ割合で動員されるという仮定である．そのため，場所によるひずみの違いや，ピーク強度から残留強度への軟化，進行性破壊は，直接は表せない．（→[10節](#what-section-10)）
 :::
 
-:::{dropdown} 問12　手法の名前だけでは分からないことは何か
+:::{dropdown} 問13　手法の名前だけでは分からないことは何か
 :icon: question
 
 すべり面の仮定と探し方，強度と安全率の定め方，無視した内力の成分や関数で表した成分，満たしたつり合い，3次元での全体すべり方向と回転軸の決定方法，収束した解が物理的に妥当かどうか．手法の名前は，10節で見た近似の層のうち，主に内力の決定方法の層を表す．その層でも，同じ名前の手法の細部は，実装によって異なる．（→[10節](#what-section-10)，[13.5節](#what-section-13-5)）
@@ -978,7 +1021,7 @@ $f(x)$ は，内力の向きが場所によってどう変わるかを表す関�
 
 ### 手法ごとの原著論文
 
-本文で扱った原著論文と，代表的な一次文献を，手法ごとにまとめる．DOIは，出版社やCrossrefの書誌情報で照合できたものだけを載せている．DOIを確認できなかったFellenius (1927, 1936)とJanbu (1954, 1973)には，DOIを付けていない．書誌ページが見つかったものには，そのリンクを付けている．
+本文で扱った原著論文と，代表的な一次文献を，手法ごとにまとめる．DOIは，出版社やCrossrefの書誌情報で照合できたものだけを載せている．DOIを確認できなかったFellenius (1927, 1936)，右城ら (1996)，Janbu (1954, 1973)には，DOIを付けていない．書誌ページが見つかったものには，そのリンクを付けている．
 
 #### 2次元の手法
 
@@ -986,59 +1029,60 @@ $f(x)$ は，内力の向きが場所によってどう変わるかを表す関�
 
 1. Fellenius, W. (1927). *Erdstatische Berechnungen mit Reibung und Kohäsion (Adhäsion) und unter Annahme kreiszylindrischer Gleitflächen*. Berlin: Ernst & Sohn. [書誌情報](https://books.google.com/books?id=yHhHAAAAIAAJ).
 2. Fellenius, W. (1936). “Calculation of the Stability of Earth Dams.” *Proceedings of the Second Congress on Large Dams*, Vol. 4, pp. 445–462. [書誌情報](https://cir.nii.ac.jp/crid/1573950399306830336).
+3. 右城猛・松本洋一・筒井秀樹（Ushiro et al.）(1996)．斜面安定解析法に関する諸問題．*地盤工学会四国支部 地すべりの地盤工学的諸問題に関するシンポジウム論文集*，149–154．[書誌情報](https://www.daiichi-consul.com/wp-content/uploads/2026/03/tech-report6-3.pdf)
 
 ##### 簡易Bishop法
 
-3. Bishop, A. W. (1955). “The use of the slip circle in the stability analysis of slopes.” *Géotechnique*, 5(1), 7–17. [https://doi.org/10.1680/geot.1955.5.1.7](https://doi.org/10.1680/geot.1955.5.1.7)
+4. Bishop, A. W. (1955). “The use of the slip circle in the stability analysis of slopes.” *Géotechnique*, 5(1), 7–17. [https://doi.org/10.1680/geot.1955.5.1.7](https://doi.org/10.1680/geot.1955.5.1.7)
 
 ##### Janbu法
 
-4. Janbu, N. (1954). “Application of composite slip surfaces for stability analysis.” *Proceedings of the European Conference on Stability of Earth Slopes*, Stockholm, Vol. 3, pp. 43–49. [書誌情報](https://cir.nii.ac.jp/crid/1570009750148611712).
-5. Janbu, N. (1973). “Slope Stability Computations.” In R. C. Hirschfeld and S. J. Poulos (eds.), *Embankment-Dam Engineering: Casagrande Volume*, pp. 47–86. New York: Wiley.
+5. Janbu, N. (1954). “Application of composite slip surfaces for stability analysis.” *Proceedings of the European Conference on Stability of Earth Slopes*, Stockholm, Vol. 3, pp. 43–49. [書誌情報](https://cir.nii.ac.jp/crid/1570009750148611712).
+6. Janbu, N. (1973). “Slope Stability Computations.” In R. C. Hirschfeld and S. J. Poulos (eds.), *Embankment-Dam Engineering: Casagrande Volume*, pp. 47–86. New York: Wiley.
 
 ##### Spencer法
 
-6. Spencer, E. (1967). “A method of analysis of the stability of embankments assuming parallel inter-slice forces.” *Géotechnique*, 17(1), 11–26. [https://doi.org/10.1680/geot.1967.17.1.11](https://doi.org/10.1680/geot.1967.17.1.11)
+7. Spencer, E. (1967). “A method of analysis of the stability of embankments assuming parallel inter-slice forces.” *Géotechnique*, 17(1), 11–26. [https://doi.org/10.1680/geot.1967.17.1.11](https://doi.org/10.1680/geot.1967.17.1.11)
 
 ##### Morgenstern–Price法・GLE
 
-7. Morgenstern, N. R., and Price, V. E. (1965). “The analysis of the stability of general slip surfaces.” *Géotechnique*, 15(1), 79–93. [https://doi.org/10.1680/geot.1965.15.1.79](https://doi.org/10.1680/geot.1965.15.1.79)
-8. Morgenstern, N. R., and Price, V. E. (1967). “A numerical method for solving the equations of stability of general slip surfaces.” *The Computer Journal*, 9(4), 388–393. [https://doi.org/10.1093/comjnl/9.4.388](https://doi.org/10.1093/comjnl/9.4.388)
+8. Morgenstern, N. R., and Price, V. E. (1965). “The analysis of the stability of general slip surfaces.” *Géotechnique*, 15(1), 79–93. [https://doi.org/10.1680/geot.1965.15.1.79](https://doi.org/10.1680/geot.1965.15.1.79)
+9. Morgenstern, N. R., and Price, V. E. (1967). “A numerical method for solving the equations of stability of general slip surfaces.” *The Computer Journal*, 9(4), 388–393. [https://doi.org/10.1093/comjnl/9.4.388](https://doi.org/10.1093/comjnl/9.4.388)
 
 ##### 手法の比較
 
-9. Fredlund, D. G., and Krahn, J. (1977). “Comparison of slope stability methods of analysis.” *Canadian Geotechnical Journal*, 14(3), 429–439. [https://doi.org/10.1139/t77-045](https://doi.org/10.1139/t77-045)
+10. Fredlund, D. G., and Krahn, J. (1977). “Comparison of slope stability methods of analysis.” *Canadian Geotechnical Journal*, 14(3), 429–439. [https://doi.org/10.1139/t77-045](https://doi.org/10.1139/t77-045)
 
 #### 3次元の手法
 
 ##### Hovland法
 
-10. Hovland, H. J. (1977). “Three-Dimensional Slope Stability Analysis Method.” *Journal of the Geotechnical Engineering Division*, 103(9), 971–986. [https://doi.org/10.1061/AJGEB6.0000493](https://doi.org/10.1061/AJGEB6.0000493)
+11. Hovland, H. J. (1977). “Three-Dimensional Slope Stability Analysis Method.” *Journal of the Geotechnical Engineering Division*, 103(9), 971–986. [https://doi.org/10.1061/AJGEB6.0000493](https://doi.org/10.1061/AJGEB6.0000493)
 
 ##### Hungr（3次元の簡易Bishop法）
 
-11. Hungr, O. (1987). “An extension of Bishop's simplified method of slope stability analysis to three dimensions.” *Géotechnique*, 37(1), 113–117. [https://doi.org/10.1680/geot.1987.37.1.113](https://doi.org/10.1680/geot.1987.37.1.113)
-12. Hungr, O., Salgado, F. M., and Byrne, P. M. (1989). “Evaluation of a three-dimensional method of slope stability analysis.” *Canadian Geotechnical Journal*, 26(4), 679–686. [https://doi.org/10.1139/t89-079](https://doi.org/10.1139/t89-079)
+12. Hungr, O. (1987). “An extension of Bishop's simplified method of slope stability analysis to three dimensions.” *Géotechnique*, 37(1), 113–117. [https://doi.org/10.1680/geot.1987.37.1.113](https://doi.org/10.1680/geot.1987.37.1.113)
+13. Hungr, O., Salgado, F. M., and Byrne, P. M. (1989). “Evaluation of a three-dimensional method of slope stability analysis.” *Canadian Geotechnical Journal*, 26(4), 679–686. [https://doi.org/10.1139/t89-079](https://doi.org/10.1139/t89-079)
 
 ##### Ugaiら
 
-13. Ugai, K., Hosobori, K., Nagase, H., and Enokido, M. (1986). “Three-dimensional stability analysis of slopes by simple slice method.” *土木学会論文集*, No. 376/III-6, 267–276. [https://doi.org/10.2208/jscej.1986.376_267](https://doi.org/10.2208/jscej.1986.376_267)
-14. Ugai, K. (1987). “Three-dimensional slope stability analysis by simplified Janbu method.” *地すべり*, 24(3), 8–14. [https://doi.org/10.3313/jls1964.24.3_8](https://doi.org/10.3313/jls1964.24.3_8)
-15. Ugai, K., and Hosobori, K. (1988). “Extension of simplified Bishop method, simplified Janbu method and Spencer's method to three dimensions.” *土木学会論文集*, No. 394/III-9, 21–26. [https://doi.org/10.2208/jscej.1988.394_21](https://doi.org/10.2208/jscej.1988.394_21)
+14. Ugai, K., Hosobori, K., Nagase, H., and Enokido, M. (1986). “Three-dimensional stability analysis of slopes by simple slice method.” *土木学会論文集*, No. 376/III-6, 267–276. [https://doi.org/10.2208/jscej.1986.376_267](https://doi.org/10.2208/jscej.1986.376_267)
+15. Ugai, K. (1987). “Three-dimensional slope stability analysis by simplified Janbu method.” *地すべり*, 24(3), 8–14. [https://doi.org/10.3313/jls1964.24.3_8](https://doi.org/10.3313/jls1964.24.3_8)
+16. Ugai, K., and Hosobori, K. (1988). “Extension of simplified Bishop method, simplified Janbu method and Spencer's method to three dimensions.” *土木学会論文集*, No. 394/III-9, 21–26. [https://doi.org/10.2208/jscej.1988.394_21](https://doi.org/10.2208/jscej.1988.394_21)
 
 ##### 3次元のGLE（Morgenstern–Price型）
 
-16. Lam, L., and Fredlund, D. G. (1993). “A general limit equilibrium model for three-dimensional slope stability analysis.” *Canadian Geotechnical Journal*, 30(6), 905–919. [https://doi.org/10.1139/t93-089](https://doi.org/10.1139/t93-089)
+17. Lam, L., and Fredlund, D. G. (1993). “A general limit equilibrium model for three-dimensional slope stability analysis.” *Canadian Geotechnical Journal*, 30(6), 905–919. [https://doi.org/10.1139/t93-089](https://doi.org/10.1139/t93-089)
 
 ##### 3次元に拡張したSpencer法
 
-17. Chen, R.-H., and Chameau, J.-L. (1983). “Three-dimensional limit equilibrium analysis of slopes.” *Géotechnique*, 33(1), 31–40. [https://doi.org/10.1680/geot.1983.33.1.31](https://doi.org/10.1680/geot.1983.33.1.31)
-18. Jiang, J.-C., and Yamagami, T. (2004). “Three-Dimensional Slope Stability Analysis Using an Extended Spencer Method.” *Soils and Foundations*, 44(4), 127–135. [https://doi.org/10.3208/sandf.44.4_127](https://doi.org/10.3208/sandf.44.4_127)
+18. Chen, R.-H., and Chameau, J.-L. (1983). “Three-dimensional limit equilibrium analysis of slopes.” *Géotechnique*, 33(1), 31–40. [https://doi.org/10.1680/geot.1983.33.1.31](https://doi.org/10.1680/geot.1983.33.1.31)
+19. Jiang, J.-C., and Yamagami, T. (2004). “Three-Dimensional Slope Stability Analysis Using an Extended Spencer Method.” *Soils and Foundations*, 44(4), 127–135. [https://doi.org/10.3208/sandf.44.4_127](https://doi.org/10.3208/sandf.44.4_127)
 
 ##### 非対称な斜面への3次元の拡張
 
-19. Cheng, Y. M., and Yip, C. J. (2007). “Three-Dimensional Asymmetrical Slope Stability Analysis—Extension of Bishop's, Janbu's, and Morgenstern–Price's Techniques.” *Journal of Geotechnical and Geoenvironmental Engineering*, 133(12), 1544–1555. [https://doi.org/10.1061/(ASCE)1090-0241(2007)133:12(1544)](https://doi.org/10.1061/%28ASCE%291090-0241%282007%29133%3A12%281544%29)
+20. Cheng, Y. M., and Yip, C. J. (2007). “Three-Dimensional Asymmetrical Slope Stability Analysis—Extension of Bishop's, Janbu's, and Morgenstern–Price's Techniques.” *Journal of Geotechnical and Geoenvironmental Engineering*, 133(12), 1544–1555. [https://doi.org/10.1061/(ASCE)1090-0241(2007)133:12(1544)](https://doi.org/10.1061/%28ASCE%291090-0241%282007%29133%3A12%281544%29)
 
 ##### 6つのつり合い式を満たす3次元の方法
 
-20. Zheng, H. (2012). “A three-dimensional rigorous method for stability analysis of landslides.” *Engineering Geology*, 145–146, 30–40. [https://doi.org/10.1016/j.enggeo.2012.06.010](https://doi.org/10.1016/j.enggeo.2012.06.010)
+21. Zheng, H. (2012). “A three-dimensional rigorous method for stability analysis of landslides.” *Engineering Geology*, 145–146, 30–40. [https://doi.org/10.1016/j.enggeo.2012.06.010](https://doi.org/10.1016/j.enggeo.2012.06.010)
