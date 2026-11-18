@@ -464,7 +464,7 @@ uv run python run_slices.py
 
 | 表示や様子 | 原因と対処 |
 |---|---|
-| `ValueError: m_alpha が 0 以下になるスライスがある` | 反復の途中で $F_s$ が小さくなりすぎたか，出口の近くで底面が急に上るスライスがある．初期値 `fs` を大きくするか，すべり面の形を見直す．（→[2節](#slices-section-2)） |
+| `ValueError: m_alpha が 0 以下になるスライスがある` | 反復の途中で $F_s$ が小さくなりすぎたか，出口の近くで底面が急に上るスライスがある．初期値 `fs` を大きくするか，すべり面の形を見直す．（→[2節](#slices-section-2)，[第3章 12.1節](#practice-section-12-1)） |
 | `ValueError: 分母 D が 0 以下になるスライスがある` | 割線法が，小さすぎる $F_s$ か大きすぎる $\theta$ を試した．`fs` の初期値を，簡易Bishop法の値の近くにする．（→[3節](#slices-section-3)） |
 | `RuntimeError: 割線法で，2点の値が同じになった` | 割線法の2点で，解く式の値が同じになった．平面のすべり面で `spencer` を使うと，$F_m(\theta)-F_f(\theta)$ がどの $\theta$ でも0になり，これが起こる．（→[6節](#slices-section-6)） |
 | `TypeError: fellenius() got an unexpected keyword argument 'effective_weight'` | `fellenius` に，5節で使う引数 `effective_weight` を付けていない．（→[2節](#slices-section-2)） |

@@ -154,6 +154,57 @@ def test_practice_3():
     assert columns.bishop(dry, raised, AXIS) == pytest.approx(2.122, abs=1e-3)
 
 
+def sign_changes(f, lo, hi, n=2000):
+    """lo と hi の間で，f の符号が変わる回数．両端の少し内側から数える．"""
+    x = np.geomspace(lo * (1 + 1e-9), hi * (1 - 1e-9), n)
+    sign = np.sign([f(v) for v in x])
+    return int(np.sum(sign[:-1] * sign[1:] < 0))
+
+
+def test_chapter_3_solutions_of_the_bishop_equation():
+    """第3章 12.1節：つり合い式を満たす F_s の数と，F* の値．"""
+    s = slices.make_slices(slices.Circle(), 50)
+    rising = s.alpha < 0.0
+    f_star = np.sort(-np.tan(s.alpha[rising]) * s.tan_phi[rising])
+    assert len(f_star) == 14
+    assert f_star[-1] == pytest.approx(0.216, abs=1e-3)
+
+    def balance(fs):
+        m_alpha = np.cos(s.alpha) + np.sin(s.alpha) * s.tan_phi / fs
+        T = (s.c * s.b + (s.W - s.u * s.b) * s.tan_phi) / (fs * m_alpha)
+        return np.sum(T) - np.sum(s.W * np.sin(s.alpha))
+
+    # F* の下，隣り合う F* の間，F* の上に，解が1つずつある
+    edges = [1e-6, *f_star, 50.0]
+    counts = [sign_changes(balance, lo, hi) for lo, hi in zip(edges[:-1], edges[1:])]
+    assert counts == [1] * 15
+    assert balance(slices.bishop(s)) == pytest.approx(0.0, abs=1e-6)
+    assert slices.bishop(s) > f_star[-1]
+
+    # 同じ中心と半径の球：F* の数と，隣り合う F* の間での符号の変化
+    col = columns.make_columns(columns.Ellipsoid(CENTRE_3D, (R, R, R)), 0.25)
+    m = columns.rotation_directions(col, AXIS)
+    l_t, l_w, l_n = columns.arms(col, m, CENTRE_3D, AXIS)
+    nz, mz = col.n[:, 2], m[:, 2]
+    f_star = np.sort((mz * col.tan_phi / -nz)[mz > 0.0])
+    # y について対称なカラムは同じ F* をもつので，同じ値をまとめる
+    first = np.concatenate([[True], np.diff(f_star) > 1e-9])
+    lowest, highest = f_star[first], f_star[np.roll(first, -1)]
+    assert len(lowest) == 988
+    assert highest[-1] == pytest.approx(0.221, abs=1e-3)
+
+    def balance_3d(fs):
+        m_alpha = -nz - mz * col.tan_phi / fs
+        N = (col.W + mz * col.c * col.A / fs) / m_alpha
+        T = (col.c * col.A + N * col.tan_phi) / fs
+        return np.sum(T * l_t + N * l_n - col.W * l_w)
+
+    above = np.sign([balance_3d(v * (1 + 1e-9)) for v in highest[:-1]])
+    below = np.sign([balance_3d(v * (1 - 1e-9)) for v in lowest[1:]])
+    assert np.all(above > 0) and np.all(below < 0)
+    assert columns.bishop(col, CENTRE_3D, AXIS) > highest[-1]
+
+
 def test_save_table(tmp_path, monkeypatch, capsys):
     """実践3 8節の save_table.py が，楕円体のカラムの表を保存する．"""
     monkeypatch.chdir(tmp_path)
